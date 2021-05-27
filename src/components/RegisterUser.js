@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, createRef} from 'react';
 import Joi from 'joi-browser';
 import axios from 'axios';
 
@@ -16,6 +16,13 @@ class RegisterUser extends Component {
         errors: {}
     };
 
+    checkbox
+
+    componentDidMount() {
+        this.checkbox = createRef();
+
+    }
+
     pattern = "/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[0-9,a-z,A-Z,!,@,#,$,%,^,&,*]{8,20}$/";
 
     schema = {
@@ -24,7 +31,7 @@ class RegisterUser extends Component {
         email: Joi.string().email(),
         username: Joi.string().required().min(8).label("Username"),
         password: Joi.string().regex(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[0-9,a-z,A-Z,!,@,#,$,%,^,&,*]{8,20}$/).required().label("Password"),
-        confirmPass: Joi.string().required().label("Confirm Password")
+        confirmPass: Joi.any().valid(Joi.ref('password')).required().label("Confirm Password").options({ language: { any: { allowOnly: 'must match password' } } })
     };
 
     validate = () => {
@@ -36,7 +43,9 @@ class RegisterUser extends Component {
         for (let item of error.details) {
             errors[item.path[0]] = item.message;
         }
-        console.log(errors);
+
+        // console.log(this.checkbox);
+        // console.log(errors);
         return errors;
     }
 
@@ -59,16 +68,16 @@ class RegisterUser extends Component {
             delete payload.confirmPass;
             const { data } = await axios.post('http://localhost:8080/api/users', payload);
 
-            // localStorage.setItem("username", data.user);
-            // localStorage.setItem("token", data.token);
-            // window.location = '/';
+            localStorage.setItem("username", data.username);
+            localStorage.setItem("token", data.token);
+            window.location = '/success';
 
         }
         catch (ex) {
-            if (ex.response && ex.response.status === 403){
-                const errorMessage = "Username and/or password do not match any registered users!";
+            if (ex.response && ex.response.status === 400){
+                const errorMessage = "Username already in use!";
                 const errors = {...this.state.errors };
-                errors.general = errorMessage;
+                errors.username = errorMessage;
                 this.setState({errors});
             }
         }
@@ -108,6 +117,19 @@ class RegisterUser extends Component {
         this.setState({errors});
     }
 
+    handleTerms = () => {
+        const errors = {...this.state.errors};
+        if (!this.checkbox.current?.checked) {
+            errors['item'] = "You must agree to the Terms of Service"
+            
+        }
+        else {
+            delete errors['item'];
+        }
+
+        this.setState({errors});
+    }
+
 
     render() {
         const spanStyle = {
@@ -126,6 +148,8 @@ class RegisterUser extends Component {
                             <input
                                 value={this.state.account.firstName}
                                 onChange={this.handleChangeWithValidation}
+                                onBlur={this.handleBlur}
+
                                 name="firstName"
                                 id="firstName" type="text" className="form-control" />
                                 <span style={spanStyle} className="text-danger">{this.state.errors.firstName}</span>
@@ -138,6 +162,8 @@ class RegisterUser extends Component {
                             <input
                                 value={this.state.account.lastName}
                                 onChange={this.handleChangeWithValidation}
+                                onBlur={this.handleBlur}
+
                                 name="lastName"
                                 id="lastName" type="text" className="form-control" />
                                 <span style={spanStyle} className="text-danger">{this.state.errors.lastName}</span>
@@ -163,6 +189,7 @@ class RegisterUser extends Component {
                             <input
                                 value={this.state.account.username}
                                 onChange={this.handleChange}
+                                onBlur={this.handleBlur}
                                 name="username"
                                 id="username" type="text" className="form-control" />
                                 <span style={spanStyle} className="text-danger">{this.state.errors.username}</span>
@@ -175,6 +202,7 @@ class RegisterUser extends Component {
                             <input
                                 value={this.state.account.password}
                                 onChange={this.handleChange}
+                                onBlur={this.handleBlur}
                                 name="password"
                                 id="password" type="password" className="form-control" />
                             <span style={spanStyle} className="text-danger">{this.state.errors.password}</span>
@@ -186,13 +214,21 @@ class RegisterUser extends Component {
                             <input
                                 value={this.state.account.confirmPass}
                                 onChange={this.handleChange}
+                                onBlur={this.handleBlur}
                                 name="confirmPass"
                                 id="confirmPass" type="password" className="form-control" />
                             <span style={spanStyle} className="text-danger">{this.state.errors.confirmPass}</span>
                         </div>
                     </div>
+
+                    <div className="form-check mt-5">
+                        <input ref={this.checkbox} onChange={this.handleTerms} className="form-check-input" type="checkbox" value="" id="terms" />
+                        <label className="form-check-label" htmlFor="terms">
+                            I agree to the Terms of Service
+                        </label>
+                    </div>
     
-                    <button disabled={this.validate()} className="mt-5 mb-3 btn btn-success">Submit</button>
+                    <button disabled={this.validate() || !this.checkbox?.current?.checked} className="mt-5 mb-3 btn btn-success">Submit</button>
                     <br></br>
                     {this.state.errors.general && <span className="text-danger">{this.state.errors.general}</span>}
                 </form>
