@@ -1,4 +1,5 @@
 import React, {Component, createRef} from 'react';
+import { Link } from 'react-router-dom';
 import Joi from 'joi-browser';
 import axios from 'axios';
 
@@ -28,7 +29,7 @@ class RegisterUser extends Component {
     schema = {
         firstName: Joi.string().required().label("First Name"),
         lastName: Joi.string().required().label("Last Name"),
-        email: Joi.string().email(),
+        email: Joi.string().email().label("Email"),
         username: Joi.string().required().min(8).label("Username"),
         password: Joi.string().regex(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[0-9,a-z,A-Z,!,@,#,$,%,^,&,*]{8,20}$/).required().label("Password"),
         confirmPass: Joi.any().valid(Joi.ref('password')).required().label("Confirm Password").options({ language: { any: { allowOnly: 'must match password' } } })
@@ -138,101 +139,101 @@ class RegisterUser extends Component {
         }
 
         return ( 
-            <div className="mt-5 offset-2 col-5">
-                <h1>Registration</h1>
-    
-                <form onSubmit={this.handleSubmit}>
-                    <div className="row mt-5">
-                        <label className="col-3 col-form-label" htmlFor="firstName">First Name:</label>
-                        <div className="col-5">
-                            <input
-                                value={this.state.account.firstName}
-                                onChange={this.handleChangeWithValidation}
-                                onBlur={this.handleBlur}
+            <div className="row">
+                <div className="mt-5 offset-2 col-5">
+                    <h1>Registration</h1>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="row mt-5">
+                            <label className="col-3 col-form-label" htmlFor="firstName">First Name:</label>
+                            <div className="col-5">
+                                <input
+                                    value={this.state.account.firstName}
+                                    onChange={this.handleChangeWithValidation}
+                                    onBlur={this.handleBlur}
+                                    name="firstName"
+                                    id="firstName" type="text" className="form-control" />
+                                    <span style={spanStyle} className="text-danger">{this.state.errors.firstName}</span>
+                
+                            </div>
+                        </div>
+                        <div className="row mt-5">
+                            <label className="col-3 col-form-label" htmlFor="lastName">Last Name:</label>
+                            <div className="col-5">
+                                <input
+                                    value={this.state.account.lastName}
+                                    onChange={this.handleChangeWithValidation}
+                                    onBlur={this.handleBlur}
+                                    name="lastName"
+                                    id="lastName" type="text" className="form-control" />
+                                    <span style={spanStyle} className="text-danger">{this.state.errors.lastName}</span>
+                
+                            </div>
+                        </div>
+                        <div className="row mt-5">
+                            <label className="col-3 col-form-label" htmlFor="email">Email:</label>
+                            <div className="col-5">
+                                <input
+                                    value={this.state.account.email}
+                                    onChange={this.handleChange}
+                                    onBlur={this.handleBlur}
+                                    name="email"
+                                    id="email" type="text" className="form-control" />
+                                    <span style={spanStyle} className="text-danger">{this.state.errors.email}</span>
+                
+                            </div>
+                        </div>
+                        <div className="row mt-5">
+                            <label className="col-3 col-form-label" htmlFor="username">Username:</label>
+                            <div className="col-5">
+                                <input
+                                    value={this.state.account.username}
+                                    onChange={this.handleChange}
+                                    onBlur={this.handleBlur}
+                                    name="username"
+                                    id="username" type="text" className="form-control" />
+                                    <span style={spanStyle} className="text-danger">{this.state.errors.username}</span>
+                
+                            </div>
+                        </div>
+                        <div className="row mt-5">
+                            <label className="col-3 col-form-label" htmlFor="password">Password:</label>
+                            <div className="col-5">
+                                <input
+                                    value={this.state.account.password}
+                                    onChange={this.handleChange}
+                                    onBlur={this.handleBlur}
+                                    name="password"
+                                    id="password" type="password" className="form-control" />
+                                <span style={spanStyle} className="text-danger">{this.state.errors.password}</span>
+                            </div>
+                        </div>
+                        <div className="row mt-5">
+                            <label className="col-3 col-form-label" htmlFor="confirmPass">Confirm Password:</label>
+                            <div className="col-5">
+                                <input
+                                    value={this.state.account.confirmPass}
+                                    onChange={this.handleChange}
+                                    onBlur={this.handleBlur}
+                                    name="confirmPass"
+                                    id="confirmPass" type="password" className="form-control" />
+                                <span style={spanStyle} className="text-danger">{this.state.errors.confirmPass}</span>
+                            </div>
+                        </div>
+                        <div className="form-check mt-5">
+                            <input ref={this.checkbox} onChange={this.handleTerms} className="form-check-input" type="checkbox" value="" id="terms" />
+                            <label className="form-check-label" htmlFor="terms">
+                                I agree to the Terms of Service
+                            </label>
+                        </div>
+                        <button disabled={this.validate() || !this.checkbox?.current?.checked} className="mt-5 mb-3 btn btn-success">Submit</button>
+                        <br></br>
+                        {this.state.errors.general && <span className="text-danger">{this.state.errors.general}</span>}
+                    </form>
+                </div>
 
-                                name="firstName"
-                                id="firstName" type="text" className="form-control" />
-                                <span style={spanStyle} className="text-danger">{this.state.errors.firstName}</span>
-                            
-                        </div>
-                    </div>
-                    <div className="row mt-5">
-                        <label className="col-3 col-form-label" htmlFor="lastName">Last Name:</label>
-                        <div className="col-5">
-                            <input
-                                value={this.state.account.lastName}
-                                onChange={this.handleChangeWithValidation}
-                                onBlur={this.handleBlur}
-
-                                name="lastName"
-                                id="lastName" type="text" className="form-control" />
-                                <span style={spanStyle} className="text-danger">{this.state.errors.lastName}</span>
-                            
-                        </div>
-                    </div>
-                    <div className="row mt-5">
-                        <label className="col-3 col-form-label" htmlFor="email">Email:</label>
-                        <div className="col-5">
-                            <input
-                                value={this.state.account.email}
-                                onChange={this.handleChange}
-                                onBlur={this.handleBlur}
-                                name="email"
-                                id="email" type="text" className="form-control" />
-                                <span style={spanStyle} className="text-danger">{this.state.errors.email}</span>
-                            
-                        </div>
-                    </div>
-                    <div className="row mt-5">
-                        <label className="col-3 col-form-label" htmlFor="username">Username:</label>
-                        <div className="col-5">
-                            <input
-                                value={this.state.account.username}
-                                onChange={this.handleChange}
-                                onBlur={this.handleBlur}
-                                name="username"
-                                id="username" type="text" className="form-control" />
-                                <span style={spanStyle} className="text-danger">{this.state.errors.username}</span>
-                            
-                        </div>
-                    </div>
-                    <div className="row mt-5">
-                        <label className="col-3 col-form-label" htmlFor="password">Password:</label>
-                        <div className="col-5">
-                            <input
-                                value={this.state.account.password}
-                                onChange={this.handleChange}
-                                onBlur={this.handleBlur}
-                                name="password"
-                                id="password" type="password" className="form-control" />
-                            <span style={spanStyle} className="text-danger">{this.state.errors.password}</span>
-                        </div>
-                    </div>
-                    <div className="row mt-5">
-                        <label className="col-3 col-form-label" htmlFor="confirmPass">Confirm Password:</label>
-                        <div className="col-5">
-                            <input
-                                value={this.state.account.confirmPass}
-                                onChange={this.handleChange}
-                                onBlur={this.handleBlur}
-                                name="confirmPass"
-                                id="confirmPass" type="password" className="form-control" />
-                            <span style={spanStyle} className="text-danger">{this.state.errors.confirmPass}</span>
-                        </div>
-                    </div>
-
-                    <div className="form-check mt-5">
-                        <input ref={this.checkbox} onChange={this.handleTerms} className="form-check-input" type="checkbox" value="" id="terms" />
-                        <label className="form-check-label" htmlFor="terms">
-                            I agree to the Terms of Service
-                        </label>
-                    </div>
-    
-                    <button disabled={this.validate() || !this.checkbox?.current?.checked} className="mt-5 mb-3 btn btn-success">Submit</button>
-                    <br></br>
-                    {this.state.errors.general && <span className="text-danger">{this.state.errors.general}</span>}
-                </form>
-    
+                <div className="mt-5 col-5">
+                    <h3 className="mt-5">If you are already registered, <Link style={{textDecoration:  "none", color: "#198754"}} to="/login">click here to log in</Link></h3>
+                </div>
             </div>
          );
     }

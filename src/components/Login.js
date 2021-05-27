@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import Joi from 'joi-browser';
 import axios from 'axios';
 
@@ -46,7 +47,7 @@ class Login extends Component {
 
         try {
             const { data } = await axios.post('http://localhost:8080/api/users/authenticate', this.state.account);
-            console.log(data);
+            // console.log(data);
             localStorage.setItem("username", data.username);
             localStorage.setItem("token", data.token);
             window.location = '/success';
@@ -85,39 +86,42 @@ class Login extends Component {
         }
     
         return ( 
-            <div className="mt-5 offset-2 col-5">
-                <h1>Welcome Back!</h1>
-    
-                <form onSubmit={this.handleSubmit}>
-                    <div className="row mt-5">
-                        <label className="col-2 col-form-label" htmlFor="username">Username:</label>
-                        <div className="col-5">
-                            <input
-                                value={this.state.account.username}
-                                onChange={this.handleChange}
-                                name="username"
-                                id="username" type="text" className="form-control" />
-                                <span style={spanStyle} className="text-danger">{this.state.errors.username}</span>
-                            
+            <div className="row">
+                <div className="mt-5 offset-2 col-5">
+                    <h1>Welcome Back!</h1>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="row mt-5">
+                            <label className="col-2 col-form-label" htmlFor="username">Username:</label>
+                            <div className="col-5">
+                                <input
+                                    value={this.state.account.username}
+                                    onChange={this.handleChange}
+                                    name="username"
+                                    id="username" type="text" className="form-control" />
+                                    <span style={spanStyle} className="text-danger">{this.state.errors.username}</span>
+                
+                            </div>
                         </div>
-                    </div>
-                    <div className="row mt-5">
-                        <label className="col-2 col-form-label" htmlFor="password">Password</label>
-                        <div className="col-5">
-                            <input
-                                value={this.state.account.password}
-                                onChange={this.handleChange}
-                                name="password"
-                                id="password" type="password" className="form-control" />
-                            <span style={spanStyle} className="text-danger">{this.state.errors.password}</span>
+                        <div className="row mt-5">
+                            <label className="col-2 col-form-label" htmlFor="password">Password</label>
+                            <div className="col-5">
+                                <input
+                                    value={this.state.account.password}
+                                    onChange={this.handleChange}
+                                    name="password"
+                                    id="password" type="password" className="form-control" />
+                                <span style={spanStyle} className="text-danger">{this.state.errors.password}</span>
+                            </div>
                         </div>
-                    </div>
-    
-                    <button disabled={this.validate()} className="mt-5 mb-3 btn btn-success">Log In</button>
-                    <br></br>
-                    {this.state.errors.general && <span className="text-danger">{this.state.errors.general}</span>}
-                </form>
-    
+                        <button disabled={this.validate()} className="mt-5 mb-3 btn btn-success">Log In</button>
+                        <br></br>
+                        {this.state.errors.general && <span className="text-danger">{this.state.errors.general}</span>}
+                    </form>
+                </div>
+
+                <div className="mt-5 col-5">
+                    <h3 className="mt-5">If you have not registered, <Link style={{textDecoration:  "none", color: "#198754"}} to="/register">click here</Link></h3>
+                </div>
             </div>
          );
     }
