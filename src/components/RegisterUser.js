@@ -24,7 +24,6 @@ class RegisterUser extends Component {
 
     }
 
-    pattern = "/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[0-9,a-z,A-Z,!,@,#,$,%,^,&,*]{8,20}$/";
 
     schema = {
         firstName: Joi.string().required().label("First Name"),
