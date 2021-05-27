@@ -13,8 +13,8 @@ const Header = ({ user }) => {
             <NavDropdown.Item href="#">View Account Types</NavDropdown.Item>
           </NavDropdown>
           <NavDropdown title="Cards" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#">Sign up for a Card</NavDropdown.Item>
-            <NavDropdown.Item href="#">View Card Offerings</NavDropdown.Item>
+            <NavDropdown.Item href="/cards">Sign up for a Card</NavDropdown.Item>
+            <NavDropdown.Item href="/cardTypes">View Card Offerings</NavDropdown.Item>
           </NavDropdown>
           <Nav.Link href="#loans">Loans</Nav.Link>
           <Nav.Link href="#loans">Branches</Nav.Link>
