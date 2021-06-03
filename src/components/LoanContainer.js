@@ -19,11 +19,22 @@ class LoanContainer extends React.Component{
             accountNumber: 0
         };
 
+        this.loanDisplay = this.getLoanDisplay();
+
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.nameChange = this.nameChange.bind(this);
         this.afterSubmission = this.afterSubmission.bind(this);
         this.accountChange = this.accountChange.bind(this);
+    }
+
+    getLoanDisplay(){
+        return (
+        <Provider store={configureStore()}>
+        <div>
+            <LoanTypeContainer />
+        </div>
+        </Provider>)
     }
 
     handleChange(event){
@@ -61,10 +72,7 @@ class LoanContainer extends React.Component{
     render(){
         return(
             <div>
-                <Provider store={configureStore()}>
-                <div>
-                    <LoanTypeContainer />
-                </div>
+                {this.loanDisplay}
                 <div style = {{display:'flex', alignItems:'center', justifyContent:'center'}}>
                     <form>
                         <label>
@@ -85,7 +93,6 @@ class LoanContainer extends React.Component{
                         <input type="submit" value="Register" style = {{display:'flex', alignItems:'center', justifyContent:'center'}}></input>
                     </form>
                     </div>
-                    </Provider>
             </div>
         );
     }
