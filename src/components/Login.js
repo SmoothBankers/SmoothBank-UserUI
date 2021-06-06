@@ -47,9 +47,10 @@ class Login extends Component {
 
         try {
             const { data } = await axios.post('http://localhost:8080/api/users/authenticate', this.state.account);
-            // console.log(data);
+            console.log(data);
             localStorage.setItem("username", data.username);
             localStorage.setItem("token", data.token);
+            localStorage.setItem("id", data.userId);
             window.location = '/success';
 
         }

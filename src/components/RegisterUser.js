@@ -67,9 +67,10 @@ class RegisterUser extends Component {
             const payload = {...this.state.account};
             delete payload.confirmPass;
             const { data } = await axios.post('http://localhost:8080/api/users', payload);
-
+            
             localStorage.setItem("username", data.username);
             localStorage.setItem("token", data.token);
+            localStorage.setItem("id", data.userId);
             window.location = '/success';
 
         }

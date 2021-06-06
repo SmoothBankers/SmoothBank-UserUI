@@ -28,7 +28,7 @@ const Header = ({ user }) => {
         }
         {user &&
         <>
-            <Nav.Link href="#profile">{user}</Nav.Link>
+            <Nav.Link href="/profile">{user}</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </>
         }

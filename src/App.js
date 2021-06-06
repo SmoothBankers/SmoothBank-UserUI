@@ -13,6 +13,7 @@ import CardTypeContainer from './components/CardTypeContainer';
 import LoanTypeContainer from './components/LoanTypeContainer';
 import CardContainer from './components/CardContainer';
 import LoanContainer from './components/LoanContainer';
+import Profile from './components/Profile';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
@@ -55,7 +56,32 @@ class App extends Component {
                 return <Success {...props} />;
               
             }} />
+          <Route path="/success"
+            render={props => {
+              // console.log(username);
+              if (!localStorage.getItem("username")) {
+                // console.log(username);
+                toast.success("Please sign in first")
+                return <Redirect to="/login" />;
+              }
+              
+                return <Success {...props} />;
+              
+            }} />
+          <Route path="/profile"
+            render={props => {
+              // console.log(username);
+              if (!localStorage.getItem("username")) {
+                // console.log(username);
+                toast.success("Please sign in first")
+                return <Redirect to="/login" />;
+              }
+              
+                return <Profile {...props} />;
+              
+            }} />
           <Route path="/logout" component={Logout} />
+          {/* <Route path="/profile" component={Profile} /> */}
           <Route path='/cardTypes' component={CardTypeContainer}/>
           <Route path='/loanTypes' component={LoanTypeContainer}/>
           <Route path='/cards' component={CardContainer}/>

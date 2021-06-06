@@ -10,3 +10,15 @@
 .Toastify__toast--success {
   background: #198754;
 }
+
+.profile__container {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.profile__item {
+  grid-column: 1;
+}
