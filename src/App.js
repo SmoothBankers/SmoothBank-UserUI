@@ -11,10 +11,12 @@ import Success from './components/Success';
 import RegisterUser from './components/RegisterUser';
 import CardTypeContainer from './components/CardTypeContainer';
 import LoanTypeContainer from './components/LoanTypeContainer';
-import CardContainer from './components/CardContainer';
-import LoanContainer from './components/LoanContainer';
+import LoanRegistration from './components/LoanRegistration';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+import CardRegistration from './components/CardRegistration';
+import LoanConfirmationPage from './components/LoanConfirmationPage';
+
 
 
 class App extends Component {
@@ -56,11 +58,13 @@ class App extends Component {
               
             }} />
           <Route path="/logout" component={Logout} />
-          <Route path='/cardTypes' component={CardTypeContainer}/>
-          <Route path='/loanTypes' component={LoanTypeContainer}/>
-          <Route path='/cards' component={CardContainer}/>
-          <Route path='/loans' component={LoanContainer}/>
+          <Route path='/loans' component={LoanTypeContainer}/>
+          <Route path='/cards' component={CardTypeContainer}/>
+          <Route path='/registerForLoan' component = {LoanRegistration} />
+          <Route path='/registerForCard' component = {CardRegistration} />
+          <Route path='/confirmLoan' component = {LoanConfirmationPage} />
           <Route path="/" component={Home} />
+          
         </Switch>
         </Provider>
       </>
