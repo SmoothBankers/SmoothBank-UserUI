@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import CardRegistration from './components/CardRegistration';
 import LoanConfirmationPage from './components/LoanConfirmationPage';
+import CardConfirmationPage from './components/CardConfirmationPage';
 
 
 
@@ -63,6 +64,7 @@ class App extends Component {
           <Route path='/registerForLoan' component = {LoanRegistration} />
           <Route path='/registerForCard' component = {CardRegistration} />
           <Route path='/confirmLoan' component = {LoanConfirmationPage} />
+          <Route path='/confirmCard' component = {CardConfirmationPage} />
           <Route path="/" component={Home} />
           
         </Switch>
