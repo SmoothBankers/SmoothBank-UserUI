@@ -31,9 +31,9 @@ class LoanRegistration extends Component {
     schema = {
         name: Joi.string().required().label("Your name"),
         email: Joi.string().required().email({ minDomainAtons: 2 }).label("Email"),
-        home_phone: Joi.string().min(7).label("Home phone"),
-        cell_phone: Joi.string().min(7).label("Cell phone"),
-        work_phone: Joi.string().min(7).label("Work phone"),
+        home_phone: Joi.string().min(10).label("Home phone"),
+        cell_phone: Joi.string().min(10).label("Cell phone"),
+        work_phone: Joi.string().min(10).label("Work phone"),
         address: Joi.string().required().label("Mailing address"),
         po_box: Joi.string().label("P.O box"),
         zipcode: Joi.number().required().label("Zipcode"),
