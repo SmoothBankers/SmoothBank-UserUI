@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react';
 import Joi from 'joi-browser';
 import axios from 'axios';
 
-class CardRegistration extends Component {
+class LoanRegistration extends Component {
 
     state = {
         holder: {
@@ -14,8 +14,9 @@ class CardRegistration extends Component {
             ssn: "",
             address: "",
             po_box: "",
-            zipcode: "",            
-            monthly_income: ""
+            zipcode: "",
+            monthly_income: "",
+            amount_requested: ""
             //any additional information goes here
         },
         errors: {}
@@ -36,8 +37,9 @@ class CardRegistration extends Component {
         address: Joi.string().required().label("Mailing address"),
         po_box: Joi.string().label("P.O box"),
         zipcode: Joi.number().required().label("Zipcode"),
-        ssn: Joi.string().min(9).max(9).required().label("Social Security Number"),        
-        monthly_income: Joi.number().required().label("Monthly income")
+        amount_requested: Joi.number().required().label("Requested amount"),
+        monthly_income: Joi.number().required().label("Monthly income"),
+        ssn: Joi.string().min(9).max(9).required().label("Social Security Number")
         //any additional information goes here
     };
 
@@ -71,14 +73,14 @@ class CardRegistration extends Component {
         if (errors) return;
 
         try {
-            const card = JSON.parse(localStorage.getItem("card"));
-            const payload = { ...this.state.holder, card };
+            const loan = JSON.parse(localStorage.getItem("loan"));
+            const payload = { ...this.state.holder, loan };
             delete payload.confirmPass;
-            const { data } = await axios.post('http://localhost:8081/api/cards', payload);
+            const { data } = await axios.post('http://localhost:8081/api/loans', payload);
             //Data will contain the results of the axios post, such as any tokens or data
             //console.log(data);
             if (data.id) {
-                alert("Your card id is " + data.id + ". Please keep track of this number in the event you need assistance with your card.")
+                alert("Your loan id is " + data.id + ". Please keep track of this number in the event you need assistance with your loan.")
             }
 
             /**
@@ -88,7 +90,7 @@ class CardRegistration extends Component {
              */
         } catch (ex) {
             if (ex.response && ex.response.status === 400) {
-                const errorMessage = "There is already a card under your name";
+                const errorMessage = "There is already a loan under your name";
                 const errors = { ...this.state.errors };
                 errors.message = errorMessage;
                 this.setState({ errors });
@@ -163,7 +165,7 @@ class CardRegistration extends Component {
         return (
             <div className="row">
                 <div className="mt-f offset-2 col-5">
-                    <h1> Card Registration</h1>
+                    <h1> Loan Registration</h1>
                     <form onSubmit={this.handleSubmit}>
                         <div className="row mt-5">
                             <label className="col-3 col-form-label" htmlFor="name">Legal Name:</label>
@@ -285,6 +287,18 @@ class CardRegistration extends Component {
                                 <span style={spanStyle} className="text-danger">{this.state.errors.monthly_income}</span>
                             </div>
                         </div>
+                        <div className="row mt-5">
+                            <label className="col-3 col-form-label" htmlFor="amount_requested">Desired loan amount:</label>
+                            <div className="col-5">
+                                <input
+                                    value={this.state.holder.amount_requested}
+                                    onChange={this.handleChangeWithValidation}
+                                    onBlur={this.handleBlur}
+                                    name="amount_requested"
+                                    id="amount_requested" type="text" className="form-control" />
+                                <span style={spanStyle} className="text-danger">{this.state.errors.amount_requested}</span>
+                            </div>
+                        </div>
                         <div className="form-check mt-5">
                             <input ref={this.checkbox} onChange={this.handleTerms} className="form-check-input" type="checkbox" value="" id="terms" />
                             <label className="form-check-label" htmlFor="terms">
@@ -302,4 +316,4 @@ class CardRegistration extends Component {
 
 }
 
-export default CardRegistration;
+export default LoanRegistration;
