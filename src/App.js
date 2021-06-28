@@ -13,6 +13,10 @@ import CardTypeContainer from './components/CardTypeContainer';
 import LoanTypeContainer from './components/LoanTypeContainer';
 import CardContainer from './components/CardContainer';
 import LoanContainer from './components/LoanContainer';
+import Accounts from './components/Accounts';
+import Transactions from './components/Transactions';
+import RegisterAccount from './components/RegisterAccount';
+import Branches from './components/Branches';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
@@ -60,6 +64,10 @@ class App extends Component {
           <Route path='/loanTypes' component={LoanTypeContainer}/>
           <Route path='/cards' component={CardContainer}/>
           <Route path='/loans' component={LoanContainer}/>
+          <Route path='/accounts/all' component={Accounts}/>
+          <Route path='/transactions' component={Transactions}/>
+          <Route path='/accounts/signup' component={RegisterAccount}/>
+          <Route path="/branches" component={Branches} />
           <Route path="/" component={Home} />
         </Switch>
         </Provider>

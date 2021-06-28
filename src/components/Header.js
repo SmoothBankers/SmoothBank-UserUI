@@ -9,15 +9,16 @@ const Header = ({ user }) => {
         <Navbar.Brand href="/">SmoothBank</Navbar.Brand>
         <Nav className="mr-auto">
           <NavDropdown title="Accounts" id="basic-nav-dropdown">
-            <NavDropdown.Item href="">Sign up for an Account</NavDropdown.Item>
-            <NavDropdown.Item href="#">View Account Types</NavDropdown.Item>
+            <NavDropdown.Item href="/accounts/signup">Sign up for an Account</NavDropdown.Item>
+            <NavDropdown.Item href="/accounts/all">View Accounts</NavDropdown.Item>
+            <NavDropdown.Item href="/transactions">View Transactions</NavDropdown.Item>
           </NavDropdown>
           <NavDropdown title="Cards" id="basic-nav-dropdown">
             <NavDropdown.Item href="/cards">Sign up for a Card</NavDropdown.Item>
             <NavDropdown.Item href="/cardTypes">View Card Offerings</NavDropdown.Item>
           </NavDropdown>
           <Nav.Link href="#loans">Loans</Nav.Link>
-          <Nav.Link href="#loans">Branches</Nav.Link>
+          <Nav.Link href="/branches">Branches</Nav.Link>
         </Nav>
         <Nav className="login">
         {!user &&
